@@ -26,33 +26,59 @@
 <section id="portfolio">
   <h2>Portfolio</h2>
   <div class="gallery">
-    <img src="kalilmain.jpg" alt="Living Room" onclick="openLightbox(this)">
-    <img src="kalilkitchen.jpg" alt="Kitchen" onclick="openLightbox(this)">
-    <img src="kalilbr.jpg" alt="Bedroom" onclick="openLightbox(this)">
+    <img src="kalilmain.jpg" alt="Living Room" onclick="openLightbox(0)">
+    <img src="kalilkitchen.jpg" alt="Kitchen" onclick="openLightbox(1)">
+    <img src="kalilbr.jpg" alt="Bedroom" onclick="openLightbox(2)">
   </div>
 
   <!-- Lightbox Overlay -->
-  <div id="lightbox" onclick="closeLightbox()">
+  <div id="lightbox" onclick="closeLightbox(event)">
+    <span id="prev" onclick="prevImage(event)">&#10094;</span>
     <img id="lightbox-img" src="" alt="Expanded image">
+    <span id="next" onclick="nextImage(event)">&#10095;</span>
   </div>
 </section>
 
 <!-- Lightbox Script -->
 <script>
-  function openLightbox(img) {
+ const images = [
+    "livingroom.jpg",
+    "kitchen.jpg",
+    "bathroom.jpg"
+  ];
+
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.src = img.src;
+    lightboxImg.src = images[currentIndex];
     lightbox.style.display = "flex";
   }
 
-  function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
+  function closeLightbox(e) {
+    if (e.target.id === "lightbox" || e.key === "Escape") {
+      document.getElementById("lightbox").style.display = "none";
+    }
   }
 
-  // Close with ESC key
+  function nextImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % images.length;
+    document.getElementById("lightbox-img").src = images[currentIndex];
+  }
+
+  function prevImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    document.getElementById("lightbox-img").src = images[currentIndex];
+  }
+
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeLightbox();
+    if (e.key === "Escape") closeLightbox(e);
+    if (e.key === "ArrowRight") nextImage(e);
+    if (e.key === "ArrowLeft") prevImage(e);
   });
 </script>
 
