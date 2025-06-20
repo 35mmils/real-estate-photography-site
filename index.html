@@ -19,13 +19,13 @@
 
 <section id="portfolio">
   <h2>Portfolio</h2>
-  <div class="gallery">
-    <img src="kalilmain.jpg" alt="Living Room" onclick="openLightbox(0)">
-    <img src="kalilkitchen.jpg" alt="Kitchen" onclick="openLightbox(1)">
-    <img src="kalilbr.jpg" alt="Bathroom" onclick="openLightbox(2)">
+
+  <!-- Preview Image Only -->
+  <div class="portfolio-preview">
+    <img src="kalilmain.jpg" alt="Preview" onclick="openLightbox(0)" />
   </div>
 
-  <!-- Lightbox Overlay -->
+  <!-- Hidden Lightbox Overlay -->
   <div id="lightbox" onclick="closeLightbox(event)">
     <span id="prev" onclick="prevImage(event)">&#10094;</span>
     <img id="lightbox-img" src="" alt="Expanded image">
@@ -81,8 +81,6 @@
       <li>Basic Package (≤1500 sq ft): $150 - 30–50 HDR Photos</li>
     </ul>
   </section>
-
-
 
   <section id="contact">
     <h2>Contact</h2>
