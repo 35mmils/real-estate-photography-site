@@ -20,12 +20,10 @@
 <section id="portfolio">
   <h2>Portfolio</h2>
 
-  <!-- Preview Image Only -->
-  <div class="portfolio-preview">
-    <img src="kalilmain.jpg" alt="Preview" onclick="openLightbox(0)" />
-  </div>
+  <!-- Grid of Homes -->
+  <div class="gallery"></div>
 
-  <!-- Hidden Lightbox Overlay -->
+  <!-- Lightbox Overlay -->
   <div id="lightbox" onclick="closeLightbox(event)">
     <span id="prev" onclick="prevImage(event)">&#10094;</span>
     <img id="lightbox-img" src="" alt="Expanded image">
@@ -34,33 +32,39 @@
 </section>
 
 <script>
-  const images = [
-    "kalilmain.jpg",
-    "kalillr.jpg",
-    "kalillr2.jpg",
-    "kalilkitchen.jpg",
-    "kalilhall.jpg",
-    "kalilbr.jpg",
-    "kalilbr2.jpg",
-    "kalilbath.jpg",
-    "Homelr1.jpg",
-    "Homelr2.jpg",
-    "Homelr3.jpg",
-    "Homebr1.jpg",
-    "Homebr2.jpg",
-    "Homebr3.jpg",
-    "homebath.jpg",
-    "homekt1.jpg",
-    "homekt2.jpg"
+  // 🏠 Define homes with 1 thumbnail and image gallery
+  const homes = [
+    {
+      thumbnail: "kalilmain.jpg",
+      gallery: ["kalilmain.jpg", "kalilkitchen.jpg", "kalilbr.jpg", "kalillr.jpg"]
+    },
+    {
+      thumbnail: "Homelr1.jpg",
+      gallery: ["Homelr1.jpg", "Homebr1.jpg", "homebath.jpg", "homekt1.jpg", "homekt2.jpg"]
+    }
+    // Add more homes here as needed
   ];
 
-  let currentIndex = 0;
+  // Inject preview thumbnails
+  const galleryContainer = document.querySelector('.gallery');
+  homes.forEach((home, homeIndex) => {
+    const img = document.createElement("img");
+    img.src = home.thumbnail;
+    img.alt = `Home ${homeIndex + 1}`;
+    img.onclick = () => openLightbox(homeIndex, 0);
+    galleryContainer.appendChild(img);
+  });
 
-  function openLightbox(index) {
-    currentIndex = index;
+  // Lightbox logic
+  let currentHomeIndex = 0;
+  let currentImageIndex = 0;
+
+  function openLightbox(homeIndex, imageIndex) {
+    currentHomeIndex = homeIndex;
+    currentImageIndex = imageIndex;
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.src = images[currentIndex];
+    lightboxImg.src = homes[currentHomeIndex].gallery[currentImageIndex];
     lightbox.style.display = "flex";
   }
 
@@ -72,14 +76,16 @@
 
   function nextImage(e) {
     e.stopPropagation();
-    currentIndex = (currentIndex + 1) % images.length;
-    document.getElementById("lightbox-img").src = images[currentIndex];
+    const images = homes[currentHomeIndex].gallery;
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    document.getElementById("lightbox-img").src = images[currentImageIndex];
   }
 
   function prevImage(e) {
     e.stopPropagation();
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    document.getElementById("lightbox-img").src = images[currentIndex];
+    const images = homes[currentHomeIndex].gallery;
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    document.getElementById("lightbox-img").src = images[currentImageIndex];
   }
 
   document.addEventListener("keydown", (e) => {
@@ -88,6 +94,7 @@
     if (e.key === "ArrowLeft") prevImage(e);
   });
 </script>
+
   
   <section id="services">
     <h2>Pricing</h2>
