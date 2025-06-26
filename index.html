@@ -54,8 +54,6 @@
     "homekt2.jpg"
   ];
 
-document.querySelector('.gallery').innerHTML = images.map((img, i) => `<img src="${img}" alt="" onclick="openLightbox(${i})">`).join('');
-  
   let currentIndex = 0;
 
   function openLightbox(index) {
